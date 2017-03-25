@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TestController {
 
+    /**
+     * git test
+     * @return
+     */
+    //test1
     @RequestMapping(value = "test")
     public String test(){
         System.out.print(1);
