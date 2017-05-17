@@ -41,6 +41,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>RELEASE</version>
+    </dependency>
     <!--第三方依赖 -->
     <!-- snaker 工作流 -->
     <dependency>
@@ -110,11 +115,7 @@
       <type>pom</type>
       <scope>import</scope>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <version>RELEASE</version>
-    </dependency>
+
   </dependencies>
   <build>
     <finalName>test</finalName>
