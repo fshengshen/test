@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f172f641-35f3-4f3c-8bb9-640a40f0f9a5" name="Default" comment="t">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/test_war.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/test_war_exploded.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dictionaries/shensheng.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test.iml" afterPath="" />
+    <list default="true" id="f172f641-35f3-4f3c-8bb9-640a40f0f9a5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/test_war.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/test_war.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/test_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/test_war_exploded.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/shensheng.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/shensheng.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/shensheng/service/TestService.java" afterPath="$PROJECT_DIR$/src/main/java/com/shensheng/service/TestService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/shensheng/service/impl/TestServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/shensheng/service/impl/TestServiceImpl.java" />
@@ -951,7 +945,7 @@
       <workItem from="1489887206854" duration="1203000" />
       <workItem from="1489888472466" duration="6214000" />
       <workItem from="1490366563791" duration="942000" />
-      <workItem from="1494986858030" duration="4337000" />
+      <workItem from="1494986858030" duration="4381000" />
     </task>
     <task id="LOCAL-00001" summary="t">
       <created>1494989791390</created>
@@ -967,11 +961,18 @@
       <option name="project" value="LOCAL" />
       <updated>1494991151528</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="t">
+      <created>1494992775792</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1494992775792</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12949000" />
+    <option name="totallyTimeSpent" value="12993000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
