@@ -20,6 +20,7 @@ public class TestServiceImpl implements TestService {
         User user = new User();
         user.setUserName("1");
         user.setPassword("1");
-        userInfoMapper.check(user);
+        user = userInfoMapper.check(user);
+        System.out.print("ssss"+user.getPassword());
     }
 }

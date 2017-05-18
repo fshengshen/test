@@ -20,7 +20,7 @@ public class TestController {
     //test1
     @GetMapping(value = "test")
     public String test(){
-        System.out.print(1);
+        System.out.print(1324165);
         testService.login();
         return "1";
     }
