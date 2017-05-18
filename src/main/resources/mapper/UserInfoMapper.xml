@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <!-- 此命名空间必须和对应Mapper.java文件的命名空间一致 -->
-<mapper namespace="com.fyn.sys.mapper.SysUserMapper">
+<mapper namespace="com.shensheng.persistence.mapper.UserInfoMapper">
 
     <!-- 栏位列表 -->
     <resultMap id="rm" type="com.shensheng.persistence.beans.User">
@@ -11,7 +11,7 @@
         <result property="password" jdbcType="VARCHAR" column="password" />
     </resultMap>
 
-    <select id="check" resultMap="rm" parameterType="com.fyn.sys.beans.SysUser">
+    <select id="check" resultMap="rm" parameterType="com.shensheng.persistence.beans.User">
         SELECT *
         FROM sys_user
         WHERE user_name = #{userName} AND password = #{password}

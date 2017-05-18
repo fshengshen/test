@@ -1,4 +1,4 @@
-name: Isea533
+name: shensheng
 server:
     port: 8088
     context-path: /shensheng/
@@ -11,13 +11,18 @@ spring:
     freemarker:
         cache: false
         request-context-attribute: request
+    datasource:
+        url: jdbc:mysql://localhost:3306/test
+        password: root
+        username: root
+        type: com.alibaba.druid.pool.DruidDataSource
 
 mybatis:
-    type-aliases-package: tk.mybatis.springboot.model
+    #type-aliases-package: tk.mybatis.springboot.model
     mapper-locations: classpath:mapper/*.xml
 
 druid:
-    url: jdbc:mysql://localhost:3306/shensheng
+    url: jdbc:mysql://localhost:3306/test
     username: root
     password: root
     initial-size: 1
