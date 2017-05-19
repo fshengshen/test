@@ -1,5 +1,6 @@
 package com.shensheng.controller;
 
+import com.shensheng.persistence.beans.User;
 import com.shensheng.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,8 @@ public class TestController {
      * git test
      * @return String
      */
-    //test1
     @GetMapping(value = "test")
-    public String test(){
-        System.out.print(1324165);
-        testService.login();
-        return "1";
+    public User test(){
+        return testService.login();
     }
 }

@@ -16,11 +16,11 @@ public class TestServiceImpl implements TestService {
     private UserInfoMapper userInfoMapper;
 
     @Override
-    public void login() {
+    public User login() {
         User user = new User();
         user.setUserName("1");
         user.setPassword("1");
         user = userInfoMapper.check(user);
-        System.out.print("ssss"+user.getPassword());
+        return user;
     }
 }
