@@ -7,11 +7,6 @@
   <version>1.0-SNAPSHOT</version>
   <name>test Maven Webapp</name>
   <url>http://maven.apache.org</url>
-<!--    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.5.RELEASE</version>
-    </parent>-->
   <properties>
     <io.springfox.version>2.5.0</io.springfox.version>
     <com.github.snakerflow.version>2.5.1</com.github.snakerflow.version>
@@ -45,7 +40,7 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-aop</artifactId>
       </dependency>
-    <!--第三方依赖 -->
+      <!--第三方依赖 -->
     <!-- snaker 工作流 -->
     <dependency>
       <groupId>com.github.snakerflow</groupId>

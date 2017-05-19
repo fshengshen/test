@@ -22,4 +22,9 @@ public class TestController {
     public User test(){
         return testService.login();
     }
+
+    @GetMapping(value = "1")
+    public String hello() {
+        return "1";
+    }
 }
