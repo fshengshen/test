@@ -32,10 +32,6 @@
         </dependencies>
     </dependencyManagement>
   <dependencies>
-<!--      <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-web</artifactId>
-      </dependency>-->
       <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -43,6 +39,10 @@
       <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-aop</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
       </dependency>
       <!--第三方依赖 -->
     <!-- snaker 工作流 -->
