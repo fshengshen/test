@@ -24,3 +24,5 @@ logging:
         #root: debug
         com:
             shensheng: debug
+
+security:
