@@ -29,6 +29,10 @@ public class MapperUtil {
 
     private final String TYPE_INT = "int";
 
+    private final String TYPE_TINYINT = "tinyint";
+
+    private final String TYPE_SMALLINT = "smallint";
+
     private final String TYPE_BIGINT = "bigint";
 
     private final String TYPE_TEXT = "text";
@@ -39,13 +43,13 @@ public class MapperUtil {
 
     private final String TYPE_BLOB = "blob";
 
-    private final String BATH_PATH = "D:/test/src/main";
+    private final String BATH_PATH = "D:/test1/src/main/";
 
-    private final String BEAN_PATH = BATH_PATH + this.getPath(this.BEAN_PACKAGE);
+    private final String BEAN_PATH = BATH_PATH + getPath(this.BEAN_PACKAGE);
 
-    private final String MAPPER_PATH = BATH_PATH + this.getPath(this.MAPPER_PACKAGE);
+    private final String MAPPER_PATH = BATH_PATH + getPath(this.MAPPER_PACKAGE);
 
-    private final String XML_PATH = BATH_PATH + this.getPath(this.XML_PACKAGE);
+    private final String XML_PATH = BATH_PATH + getPath(this.XML_PACKAGE);
 
     private final String BASE_PACKAGE = "com.shensheng.";
 
@@ -57,9 +61,9 @@ public class MapperUtil {
 
     private final String DRIVER_NAME = "com.mysql.jdbc.Driver";
 
-    private final String USER = "test";
+    private final String USER = "root";
 
-    private final String PASSWORD = "test";
+    private final String PASSWORD = "root";
 
     private final String URL = "jdbc:mysql://localhost:3306/test?characterEncoding=utf8";
 
@@ -94,20 +98,19 @@ public class MapperUtil {
         return tables;
     }
 
-    private String getPath(String path) {
+    private static String getPath(String path) {
         if (path != null && !path.equals("")) {
-            path.split("\\.");
-            path.replaceAll("\\.", "/");
+            path = path.replaceAll("\\.", "/");
         }
         return path;
     }
 
-    private void processTable( String table ) {
+    private void processTable(String table) {
         StringBuffer sb = new StringBuffer(table.length());
         String tableNew = table.toLowerCase();
         String[] tables = tableNew.split("_");
         String temp = null;
-        for ( int i = 1 ; i < tables.length ; i++ ) {
+        for (int i = 0; i < tables.length; i++) {
             temp = tables[i].trim();
             sb.append(temp.substring(0, 1).toUpperCase()).append(temp.substring(1));
         }
@@ -116,7 +119,7 @@ public class MapperUtil {
     }
 
 
-    private String processType( String type ) {
+    private String processType(String type) {
         if (type.indexOf(TYPE_CHAR) > -1) {
             return "String";
         } else if (type.indexOf(TYPE_VARCHAR) > -1) {
@@ -125,30 +128,73 @@ public class MapperUtil {
             return "Long";
         } else if (type.indexOf(TYPE_INT) > -1) {
             return "Integer";
+        } else if (type.indexOf(TYPE_TINYINT) > -1) {
+            return "Integer";
+        } else if (type.indexOf(TYPE_SMALLINT) > -1) {
+            return "Integer";
         } else if (type.indexOf(TYPE_DATE) > -1) {
-            return "java.util.Date";
+            return "Date";
         } else if (type.indexOf(TYPE_TEXT) > -1) {
             return "String";
         } else if (type.indexOf(TYPE_TIMESTAMP) > -1) {
-            return "java.util.Date";
+            return "Date";
         } else if (type.indexOf(TYPE_BIT) > -1) {
             return "Boolean";
         } else if (type.indexOf(TYPE_DECIMAL) > -1) {
-            return "java.math.BigDecimal";
+            return "BigDecimal";
         } else if (type.indexOf(TYPE_BLOB) > -1) {
             return "byte[]";
         }
         return null;
     }
 
+    private String processJdbcType(String type) {
+        if (type.indexOf(TYPE_CHAR) > -1) {
+            return "VARCHAR";
+        } else if (type.indexOf(TYPE_VARCHAR) > -1) {
+            return "VARCHAR";
+        } else if (type.indexOf(TYPE_BIGINT) > -1) {
+            return "BIGINT";
+        } else if (type.indexOf(TYPE_INT) > -1) {
+            return "INTEGER";
+        } else if (type.indexOf(TYPE_TINYINT) > -1) {
+            return "INTEGER";
+        } else if (type.indexOf(TYPE_SMALLINT) > -1) {
+            return "INTEGER";
+        } else if (type.indexOf(TYPE_DATE) > -1) {
+            return "TIMESTAMP";
+        } else if (type.indexOf(TYPE_TEXT) > -1) {
+            return "VARCHAR";
+        } else if (type.indexOf(TYPE_TIMESTAMP) > -1) {
+            return "TIMESTAMP";
+        } else if (type.indexOf(TYPE_BIT) > -1) {
+            return "INTEGER";
+        } else if (type.indexOf(TYPE_DECIMAL) > -1) {
+            return "DECIMAL";
+        } else if (type.indexOf(TYPE_BLOB) > -1) {
+            return "BLOB";
+        }
+        return null;
+    }
 
-    private String processField( String field ) {
+    private boolean isType(List<String> types, String type) {
+        if (type != null) {
+            for (int i = 0; i < types.size(); i++) {
+                if (type.equals(types.get(i))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private String processField(String field) {
         StringBuffer sb = new StringBuffer(field.length());
-        //field = field.toLowerCase();
+        field = field.toLowerCase();
         String[] fields = field.split("_");
         String temp = null;
         sb.append(fields[0]);
-        for ( int i = 1 ; i < fields.length ; i++ ) {
+        for (int i = 1; i < fields.length; i++) {
             temp = fields[i].trim();
             sb.append(temp.substring(0, 1).toUpperCase()).append(temp.substring(1));
         }
@@ -162,7 +208,7 @@ public class MapperUtil {
      * @param beanName
      * @return
      */
-    private String processResultMapId( String beanName ) {
+    private String processResultMapId(String beanName) {
         return beanName.substring(0, 1).toLowerCase() + beanName.substring(1);
     }
 
@@ -175,44 +221,16 @@ public class MapperUtil {
      * @return
      * @throws IOException
      */
-    private BufferedWriter buildClassComment(BufferedWriter bw, String text ) throws IOException {
+    private BufferedWriter buildClassComment(BufferedWriter bw, String text) throws IOException {
         bw.newLine();
         bw.newLine();
         bw.write("/**");
         bw.newLine();
-        bw.write(" * ");
-        bw.newLine();
         bw.write(" * " + text);
         bw.newLine();
-        bw.write(" * ");
-        bw.newLine();
-        bw.write(" **/");
+        bw.write(" */");
         return bw;
     }
-
-
-    /**
-     *  构建方法上面的注释
-     *
-     * @param bw
-     * @param text
-     * @return
-     * @throws IOException
-     */
-    private BufferedWriter buildMethodComment( BufferedWriter bw, String text ) throws IOException {
-        bw.newLine();
-        bw.write("\t/**");
-        bw.newLine();
-        bw.write("\t * ");
-        bw.newLine();
-        bw.write("\t * " + text);
-        bw.newLine();
-        bw.write("\t * ");
-        bw.newLine();
-        bw.write("\t **/");
-        return bw;
-    }
-
 
     /**
      *  生成实体类
@@ -222,66 +240,66 @@ public class MapperUtil {
      * @param comments
      * @throws IOException
      */
-    private void buildEntityBean( List<String> columns, List<String> types, List<String> comments, String tableComment )
+    private void buildEntityBean(List<String> columns, List<String> types, List<String> comments, String tableComment)
             throws IOException {
         File folder = new File(BEAN_PATH);
-        if ( !folder.exists() ) {
-            folder.mkdir();
+        if (!folder.exists()) {
+            folder.mkdirs();
         }
 
         File beanFile = new File(BEAN_PATH, beanName + ".java");
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(beanFile)));
         bw.write("package " + BEAN_PACKAGE + ";");
         bw.newLine();
-        bw.write("import java.io.Serializable;");
         bw.newLine();
-        //bw.write("import lombok.Data;");
-        //      bw.write("import javax.persistence.Entity;");
+        bw.write("import java.io.Serializable;");
+        if (isType(types, TYPE_DATE) || isType(types, TYPE_TIMESTAMP)) {
+            bw.newLine();
+            bw.write("import java.util.Date;");
+        }
+        if (isType(types, TYPE_DECIMAL)) {
+            bw.newLine();
+            bw.write("import java.math.BigDecimal;");
+        }
         bw = buildClassComment(bw, tableComment);
         bw.newLine();
-        bw.write("@SuppressWarnings(\"serial\")");
-        bw.newLine();
-        //      bw.write("@Entity");
-        //bw.write("@Data");
-        //bw.newLine();
         bw.write("public class " + beanName + " implements Serializable {");
         bw.newLine();
-        bw.newLine();
         int size = columns.size();
-        for ( int i = 0 ; i < size ; i++ ) {
-            bw.write("\t/**" + comments.get(i) + "**/");
+        for (int i = 0; i < size; i++) {
+            bw.write("    /**");
             bw.newLine();
-            bw.write("\tprivate " + processType(types.get(i)) + " " + processField(columns.get(i)) + ";");
+            bw.write("     * " + comments.get(i));
+            bw.newLine();
+            bw.write("     */");
+            bw.newLine();
+            bw.write("    private " + processType(types.get(i)) + " " + processField(columns.get(i)) + ";");
             bw.newLine();
             bw.newLine();
         }
-        bw.newLine();
         // 生成get 和 set方法
         String tempField = null;
         String _tempField = null;
         String tempType = null;
-        for ( int i = 0 ; i < size ; i++ ) {
+        for (int i = 0; i < size; i++) {
             tempType = processType(types.get(i));
             _tempField = processField(columns.get(i));
             tempField = _tempField.substring(0, 1).toUpperCase() + _tempField.substring(1);
+            bw.write("    public void set" + tempField + "(" + tempType + " " + _tempField + ") {");
             bw.newLine();
-            //          bw.write("\tpublic void set" + tempField + "(" + tempType + " _" + _tempField + "){");
-            bw.write("\tpublic void set" + tempField + "(" + tempType + " " + _tempField + "){");
+            bw.write("        this." + _tempField + " = " + _tempField + ";");
             bw.newLine();
-            //          bw.write("\t\tthis." + _tempField + "=_" + _tempField + ";");
-            bw.write("\t\tthis." + _tempField + " = " + _tempField + ";");
-            bw.newLine();
-            bw.write("\t}");
+            bw.write("    }");
             bw.newLine();
             bw.newLine();
-            bw.write("\tpublic " + tempType + " get" + tempField + "(){");
+            bw.write("    public " + tempType + " get" + tempField + "() {");
             bw.newLine();
-            bw.write("\t\treturn this." + _tempField + ";");
+            bw.write("        return this." + _tempField + ";");
             bw.newLine();
-            bw.write("\t}");
+            bw.write("    }");
+            bw.newLine();
             bw.newLine();
         }
-        bw.newLine();
         bw.write("}");
         bw.newLine();
         bw.flush();
@@ -296,10 +314,9 @@ public class MapperUtil {
      */
     private void buildMapper() throws IOException {
         File folder = new File(MAPPER_PATH);
-        if ( !folder.exists() ) {
+        if (!folder.exists()) {
             folder.mkdirs();
         }
-
         File mapperFile = new File(MAPPER_PATH, mapperName + ".java");
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(mapperFile), "utf-8"));
         bw.write("package " + MAPPER_PACKAGE + ";");
@@ -307,41 +324,10 @@ public class MapperUtil {
         bw.newLine();
         bw.write("import " + BEAN_PACKAGE + "." + beanName + ";");
         bw.newLine();
-        bw.write("import org.apache.ibatis.annotations.Param;");
         bw = buildClassComment(bw, mapperName + "数据库操作接口类");
         bw.newLine();
+        bw.write("public interface " + mapperName + " {");
         bw.newLine();
-        //      bw.write("public interface " + mapperName + " extends " + mapper_extends + "<" + beanName + "> {");
-        bw.write("public interface " + mapperName + "{");
-        bw.newLine();
-        bw.newLine();
-        // ----------定义Mapper中的方法Begin----------
-        bw = buildMethodComment(bw, "查询（根据主键ID查询）");
-        bw.newLine();
-        bw.write("\t" + beanName + "  selectByPrimaryKey ( @Param(\"id\") Long id );");
-        bw.newLine();
-        bw = buildMethodComment(bw, "删除（根据主键ID删除）");
-        bw.newLine();
-        bw.write("\t" + "int deleteByPrimaryKey ( @Param(\"id\") Long id );");
-        bw.newLine();
-        bw = buildMethodComment(bw, "添加");
-        bw.newLine();
-        bw.write("\t" + "int insert( " + beanName + " record );");
-        bw.newLine();
-        bw = buildMethodComment(bw, "添加 （匹配有值的字段）");
-        bw.newLine();
-        bw.write("\t" + "int insertSelective( " + beanName + " record );");
-        bw.newLine();
-        bw = buildMethodComment(bw, "修改 （匹配有值的字段）");
-        bw.newLine();
-        bw.write("\t" + "int updateByPrimaryKeySelective( " + beanName + " record );");
-        bw.newLine();
-        bw = buildMethodComment(bw, "修改（根据主键ID修改）");
-        bw.newLine();
-        bw.write("\t" + "int updateByPrimaryKey ( " + beanName + " record );");
-        bw.newLine();
-
-        // ----------定义Mapper中的方法End----------
         bw.newLine();
         bw.write("}");
         bw.flush();
@@ -357,9 +343,9 @@ public class MapperUtil {
      * @param comments
      * @throws IOException
      */
-    private void buildMapperXml( List<String> columns, List<String> types, List<String> comments ) throws IOException {
+    private void buildMapperXml(List<String> columns, List<String> types, List<String> comments) throws IOException {
         File folder = new File(XML_PATH);
-        if ( !folder.exists() ) {
+        if (!folder.exists()) {
             folder.mkdirs();
         }
 
@@ -367,38 +353,27 @@ public class MapperUtil {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(mapperXmlFile)));
         bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         bw.newLine();
-        bw.write("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" ");
-        bw.newLine();
-        bw.write("    \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
+        bw.write("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">");
         bw.newLine();
         bw.write("<mapper namespace=\"" + MAPPER_PACKAGE + "." + mapperName + "\">");
         bw.newLine();
         bw.newLine();
 
-        /*bw.write("\t<!--实体映射-->");
+        bw.write("    <!--实体映射-->");
         bw.newLine();
-        bw.write("\t<resultMap id=\"" + this.processResultMapId(beanName) + "ResultMap\" type=\"" + beanName + "\">");
-        bw.newLine();
-        bw.write("\t\t<!--" + comments.get(0) + "-->");
-        bw.newLine();
-        bw.write("\t\t<id property=\"" + this.processField(columns.get(0)) + "\" column=\"" + columns.get(0) + "\" />");
+        bw.write("    <resultMap id=\"rm\" type=\"" + BEAN_PACKAGE + "." + beanName + "\">");
         bw.newLine();
         int size = columns.size();
-        for ( int i = 1 ; i < size ; i++ ) {
-            bw.write("\t\t<!--" + comments.get(i) + "-->");
-            bw.newLine();
-            bw.write("\t\t<result property=\""
-                    + this.processField(columns.get(i)) + "\" column=\"" + columns.get(i) + "\" />");
+        for (int i = 0; i < size; i++) {
+            bw.write("        <result property=\"" + this.processField(columns.get(i)) + "\" column=\"" + columns.get(i) + "\" jdbcType=\"" + processJdbcType(types.get(i)) + "\" />");
             bw.newLine();
         }
-        bw.write("\t</resultMap>");
+        bw.write("    </resultMap>");
 
         bw.newLine();
         bw.newLine();
-        bw.newLine();*/
 
         // 下面开始写SqlMapper中的方法
-        // this.outputSqlMapperMethod(bw, columns, types);
         buildSQL(bw, columns, types);
 
         bw.write("</mapper>");
@@ -407,199 +382,203 @@ public class MapperUtil {
     }
 
 
-    private void buildSQL( BufferedWriter bw, List<String> columns, List<String> types ) throws IOException {
+    private void buildSQL(BufferedWriter bw, List<String> columns, List<String> types) throws IOException {
         int size = columns.size();
         // 通用结果列
-        bw.write("\t<!-- 通用查询结果列-->");
+        bw.write("    <!-- 通用查询结果列-->");
         bw.newLine();
-        bw.write("\t<sql id=\"Base_Column_List\">");
+        bw.write("    <sql id=\"Base_Column_List\">");
         bw.newLine();
 
-        bw.write("\t\t id,");
-        for ( int i = 1 ; i < size ; i++ ) {
-            bw.write("\t" + columns.get(i));
-            if ( i != size - 1 ) {
+        bw.write("         ");
+        for (int i = 0; i < size; i++) {
+            bw.write(" " + columns.get(i));
+            if (i != size - 1) {
                 bw.write(",");
             }
         }
 
         bw.newLine();
-        bw.write("\t</sql>");
+        bw.write("    </sql>");
         bw.newLine();
         bw.newLine();
 
 
-        // 查询（根据主键ID查询）
-        bw.write("\t<!-- 查询（根据主键ID查询） -->");
+        // 查询(根据主键ID查询(表的第一个字段))
+        bw.write("    <!-- 查询（根据主键ID查询） -->");
         bw.newLine();
-        bw.write("\t<select id=\"selectByPrimaryKey\" resultType=\""
+        bw.write("    <select id=\"selectByPrimaryKey\" resultType=\""
                 + processResultMapId(beanName) + "\" parameterType=\"java.lang." + processType(types.get(0)) + "\">");
         bw.newLine();
-        bw.write("\t\t SELECT");
+        bw.write("         SELECT");
         bw.newLine();
-        bw.write("\t\t <include refid=\"Base_Column_List\" />");
+        bw.write("         <include refid=\"Base_Column_List\" />");
         bw.newLine();
-        bw.write("\t\t FROM " + tableName);
+        bw.write("         FROM " + tableName);
         bw.newLine();
-        bw.write("\t\t WHERE " + columns.get(0) + " = #{" + processField(columns.get(0)) + "}");
+        bw.write("         WHERE " + columns.get(0) + " = #{" + processField(columns.get(0)) + "}");
         bw.newLine();
-        bw.write("\t</select>");
+        bw.write("    </select>");
         bw.newLine();
         bw.newLine();
         // 查询完
 
 
-        // 删除（根据主键ID删除）
-        bw.write("\t<!--删除：根据主键ID删除-->");
+        // 删除(根据主键ID删除(表的第一个字段))
+        bw.write("    <!--删除：根据主键ID删除-->");
         bw.newLine();
-        bw.write("\t<delete id=\"deleteByPrimaryKey\" parameterType=\"java.lang." + processType(types.get(0)) + "\">");
+        bw.write("    <delete id=\"deleteByPrimaryKey\" parameterType=\"java.lang." + processType(types.get(0)) + "\">");
         bw.newLine();
-        bw.write("\t\t DELETE FROM " + tableName);
+        bw.write("         DELETE FROM " + tableName);
         bw.newLine();
-        bw.write("\t\t WHERE " + columns.get(0) + " = #{" + processField(columns.get(0)) + "}");
+        bw.write("         WHERE " + columns.get(0) + " = #{" + processField(columns.get(0)) + "}");
         bw.newLine();
-        bw.write("\t</delete>");
+        bw.write("    </delete>");
         bw.newLine();
         bw.newLine();
         // 删除完
 
 
         // 添加insert方法
-        bw.write("\t<!-- 添加 -->");
+/*        bw.write("    <!-- 添加 -->");
         bw.newLine();
-        bw.write("\t<insert id=\"insert\" parameterType=\"" + processResultMapId(beanName) + "\">");
+        bw.write("    <insert id=\"insert\" parameterType=\"" + processResultMapId(beanName) + "\">");
         bw.newLine();
-        bw.write("\t\t INSERT INTO " + tableName);
+        bw.write("         INSERT INTO " + tableName);
         bw.newLine();
-        bw.write(" \t\t(");
-        for ( int i = 0 ; i < size ; i++ ) {
+        bw.write("         (");
+        for (int i = 0; i < size; i++) {
             bw.write(columns.get(i));
-            if ( i != size - 1 ) {
+            if (i != size - 1) {
                 bw.write(",");
             }
         }
         bw.write(") ");
         bw.newLine();
-        bw.write("\t\t VALUES ");
+        bw.write("         VALUES ");
         bw.newLine();
-        bw.write(" \t\t(");
-        for ( int i = 0 ; i < size ; i++ ) {
+        bw.write("         (");
+        for (int i = 0; i < size; i++) {
             bw.write("#{" + processField(columns.get(i)) + "}");
-            if ( i != size - 1 ) {
+            if (i != size - 1) {
                 bw.write(",");
             }
         }
         bw.write(") ");
         bw.newLine();
-        bw.write("\t</insert>");
+        bw.write("    </insert>");
         bw.newLine();
-        bw.newLine();
+        bw.newLine();*/
         // 添加insert完
 
 
         //---------------  insert方法（匹配有值的字段）
-        bw.write("\t<!-- 添加 （匹配有值的字段）-->");
+        bw.write("    <!-- 添加 （匹配有值的字段）-->");
         bw.newLine();
-        bw.write("\t<insert id=\"insertSelective\" parameterType=\"" + processResultMapId(beanName) + "\">");
+        bw.write("    <insert id=\"insertSelective\" parameterType=\"" + processResultMapId(beanName) + "\">");
         bw.newLine();
-        bw.write("\t\t INSERT INTO " + tableName);
+        bw.write("         INSERT INTO " + tableName);
         bw.newLine();
-        bw.write("\t\t <trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\" >");
+        bw.write("         <trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\" >");
         bw.newLine();
 
         String tempField = null;
-        for ( int i = 0 ; i < size ; i++ ) {
+        for (int i = 0; i < size; i++ ) {
             tempField = processField(columns.get(i));
-            bw.write("\t\t\t<if test=\"" + tempField + " != null\">");
+            if ("String".equals(processType(types.get(i)))) {
+                bw.write("            <if test=\"" + tempField + " != null and " + tempField + " != ''\">");
+            } else {
+                bw.write("            <if test=\"" + tempField + " != null\">");
+            }
             bw.newLine();
-            bw.write("\t\t\t\t " + columns.get(i) + ",");
+            bw.write("                 " + columns.get(i) + ",");
             bw.newLine();
-            bw.write("\t\t\t</if>");
+            bw.write("            </if>");
             bw.newLine();
         }
 
-        bw.newLine();
-        bw.write("\t\t </trim>");
-        bw.newLine();
-
-        bw.write("\t\t <trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\" >");
+        bw.write("         </trim>");
         bw.newLine();
 
-        tempField = null;
-        for ( int i = 0 ; i < size ; i++ ) {
+        bw.write("         <trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\" >");
+        bw.newLine();
+
+        for (int i = 0; i < size; i++ ) {
             tempField = processField(columns.get(i));
-            bw.write("\t\t\t<if test=\"" + tempField + "!=null\">");
+            bw.write("            <if test=\"" + tempField + "!=null\">");
             bw.newLine();
-            bw.write("\t\t\t\t #{" + tempField + "},");
+            bw.write("                 #{" + tempField + "},");
             bw.newLine();
-            bw.write("\t\t\t</if>");
+            bw.write("            </if>");
             bw.newLine();
         }
 
-        bw.write("\t\t </trim>");
+        bw.write("         </trim>");
         bw.newLine();
-        bw.write("\t</insert>");
+        bw.write("    </insert>");
         bw.newLine();
         bw.newLine();
         //---------------  完毕
 
 
-        // 修改update方法
-        bw.write("\t<!-- 修 改-->");
+        // 修改update方法（匹配有值的字段）
+        bw.write("    <!-- 修 改-->");
         bw.newLine();
-        bw.write("\t<update id=\"updateByPrimaryKeySelective\" parameterType=\"" + processResultMapId(beanName) + "\">");
+        bw.write("    <update id=\"updateByPrimaryKeySelective\" parameterType=\"" + processResultMapId(beanName) + "\">");
         bw.newLine();
-        bw.write("\t\t UPDATE " + tableName);
+        bw.write("         UPDATE " + tableName);
         bw.newLine();
-        bw.write(" \t\t <set> ");
+        bw.write("          <set> ");
         bw.newLine();
 
-        tempField = null;
-        for ( int i = 1 ; i < size ; i++ ) {
+        for (int i = 1; i < size; i++) {
             tempField = processField(columns.get(i));
-            bw.write("\t\t\t<if test=\"" + tempField + " != null\">");
+            if ("String".equals(processType(types.get(i)))) {
+                bw.write("            <if test=\"" + tempField + " != null and " + tempField + " != ''\">");
+            } else {
+                bw.write("            <if test=\"" + tempField + " != null\">");
+            }
+//            bw.write("            <if test=\"" + tempField + " != null\">");
             bw.newLine();
-            bw.write("\t\t\t\t " + columns.get(i) + " = #{" + tempField + "},");
+            bw.write("                 " + columns.get(i) + " = #{" + tempField + "},");
             bw.newLine();
-            bw.write("\t\t\t</if>");
+            bw.write("            </if>");
             bw.newLine();
         }
 
+        bw.write("          </set>");
         bw.newLine();
-        bw.write(" \t\t </set>");
+        bw.write("         WHERE " + columns.get(0) + " = #{" + processField(columns.get(0)) + "}");
         bw.newLine();
-        bw.write("\t\t WHERE " + columns.get(0) + " = #{" + processField(columns.get(0)) + "}");
-        bw.newLine();
-        bw.write("\t</update>");
+        bw.write("    </update>");
         bw.newLine();
         bw.newLine();
         // update方法完毕
 
-        // ----- 修改（匹配有值的字段）
-        bw.write("\t<!-- 修 改-->");
+        // ----- 修改
+/*        bw.write("    <!-- 修 改-->");
         bw.newLine();
-        bw.write("\t<update id=\"updateByPrimaryKey\" parameterType=\"" + processResultMapId(beanName) + "\">");
+        bw.write("    <update id=\"updateByPrimaryKey\" parameterType=\"" + processResultMapId(beanName) + "\">");
         bw.newLine();
-        bw.write("\t\t UPDATE " + tableName);
+        bw.write("         UPDATE " + tableName);
         bw.newLine();
-        bw.write("\t\t SET ");
+        bw.write("         SET ");
 
         bw.newLine();
-        tempField = null;
-        for ( int i = 1 ; i < size ; i++ ) {
+        for (int i = 1; i < size; i++) {
             tempField = processField(columns.get(i));
-            bw.write("\t\t\t " + columns.get(i) + " = #{" + tempField + "}");
-            if ( i != size - 1 ) {
+            bw.write("             " + columns.get(i) + " = #{" + tempField + "}");
+            if (i != size - 1) {
                 bw.write(",");
             }
             bw.newLine();
         }
 
-        bw.write("\t\t WHERE " + columns.get(0) + " = #{" + processField(columns.get(0)) + "}");
+        bw.write("         WHERE " + columns.get(0) + " = #{" + processField(columns.get(0)) + "}");
         bw.newLine();
-        bw.write("\t</update>");
+        bw.write("    </update>");
         bw.newLine();
-        bw.newLine();
+        bw.newLine();*/
     }
 
 
@@ -610,10 +589,10 @@ public class MapperUtil {
      * @throws SQLException
      */
     private Map<String, String> getTableComment() throws SQLException {
-        Map<String, String> maps = new HashMap<String, String>();
+        Map<String, String> maps = new HashMap<>();
         PreparedStatement pstate = conn.prepareStatement("show table status");
         ResultSet results = pstate.executeQuery();
-        while ( results.next() ) {
+        while (results.next()) {
             String tableName = results.getString("NAME");
             String comment = results.getString("COMMENT");
             maps.put(tableName, comment);
@@ -631,20 +610,19 @@ public class MapperUtil {
         PreparedStatement pstate = null;
         List<String> tables = getTables();
         Map<String, String> tableComments = getTableComment();
-        for ( String table : tables ) {
-            columns = new ArrayList<String>();
-            types = new ArrayList<String>();
-            comments = new ArrayList<String>();
+        for (String table : tables) {
+            columns = new ArrayList<>();
+            types = new ArrayList<>();
+            comments = new ArrayList<>();
             pstate = conn.prepareStatement(prefix + table);
             ResultSet results = pstate.executeQuery();
-            while ( results.next() ) {
+            while (results.next()) {
                 columns.add(results.getString("FIELD"));
                 types.add(results.getString("TYPE"));
                 comments.add(results.getString("COMMENT"));
             }
             tableName = table;
             processTable(table);
-            //          this.outputBaseBean();
             String tableComment = tableComments.get(tableName);
             buildEntityBean(columns, types, comments, tableComment);
             buildMapper();
@@ -654,16 +632,16 @@ public class MapperUtil {
     }
 
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         try {
             new MapperUtil().generate();
             // 自动打开生成文件的目录
-            Runtime.getRuntime().exec("cmd /c start explorer D:\\");
-        } catch ( ClassNotFoundException e ) {
+//            Runtime.getRuntime().exec("cmd /c start explorer D:\\test1\\src\\main");
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch ( SQLException e ) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } catch ( IOException e ) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
