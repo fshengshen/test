@@ -3,12 +3,24 @@
 <head>
     <title>CSS LEARN</title>
     <meta name="keywords" content="hello"/>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../resources/css/bootstrap.css">
+    <script src="../resources/js/jquery-3.2.1.min.js"></script>
     <style>
         div{
             border: 1px solid #ff83c1;
+            overflow: auto;
+        }
+        div div{
+            border: 5px solid #ff83c1;
+        }
+        #parent{
+            height: 5000px;
         }
         #one{
-
+            max-width: 600px;
+            margin: 10px auto;
+            padding: 10px;
         }
         #two{
             width: 20%;
@@ -19,9 +31,15 @@
             float: left;
         }
         #four{
+            width: 20%;
+            float: left;
         }
         #five{
             width: 100%;
+            bottom: 0;
+            position: fixed;
+            left: 0;
+            height: 70px;
         }
 
     </style>
@@ -39,6 +57,5 @@
         <div id="four">right</div>
         <div id="five">foot</div>
     </div>
-
 </body>
 </html>

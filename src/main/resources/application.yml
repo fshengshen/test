@@ -26,3 +26,6 @@ logging:
             shensheng: debug
 
 security:
+  user:
+    name: admin
+    password: admin
